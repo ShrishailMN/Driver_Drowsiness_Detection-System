@@ -6,7 +6,6 @@ from scipy.spatial import distance
 from pygame import mixer
 import imutils
 
-
 # Initialize Flask app
 app = Flask(__name__)
 drowsiness_alert = False
@@ -85,17 +84,17 @@ def gen_frames():
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-@app.route('')
+@app.route('/')
 def index():
     # Render HTML page
     return render_template('index.html')
 
-@app.route('video_feed')
+@app.route('/video_feed')
 def video_feed():
     # Return the response generated from gen_frames
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('get_alert_status')
+@app.route('/get_alert_status')
 def get_alert_status():
     global drowsiness_alert
     return jsonify({"alert": drowsiness_alert})
